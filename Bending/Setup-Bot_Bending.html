@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wind Tunnel Lab Procedure - NACA0015 Aerofoil</title>
+    <title>Bending of Beams Lab Procedure</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -18,26 +17,22 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
         .header {
             text-align: center;
             color: white;
             margin-bottom: 30px;
             animation: fadeInDown 1s ease-out;
         }
-
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-
         .progress-container {
             background: rgba(255,255,255,0.2);
             border-radius: 10px;
@@ -45,7 +40,6 @@
             margin-bottom: 30px;
             backdrop-filter: blur(10px);
         }
-
         .progress-bar {
             width: 100%;
             height: 20px;
@@ -54,7 +48,6 @@
             overflow: hidden;
             margin-bottom: 10px;
         }
-
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4CAF50, #45a049);
@@ -62,13 +55,11 @@
             transition: width 0.5s ease;
             border-radius: 10px;
         }
-
         .step-counter {
             color: white;
             text-align: center;
             font-weight: bold;
         }
-
         .step-card {
             background: white;
             border-radius: 15px;
@@ -80,24 +71,20 @@
             transition: all 0.5s ease;
             border-left: 5px solid #667eea;
         }
-
         .step-card.active {
             transform: translateY(0);
             opacity: 1;
             border-left-color: #4CAF50;
         }
-
         .step-card.completed {
             background: #f8f9fa;
             border-left-color: #28a745;
         }
-
         .step-header {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
         }
-
         .step-number {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -112,17 +99,14 @@
             margin-right: 20px;
             flex-shrink: 0;
         }
-
         .step-title {
             font-size: 1.4em;
             font-weight: bold;
             color: #333;
         }
-
         .step-content {
             margin-left: 70px;
         }
-
         .instruction-item {
             background: #f8f9fa;
             border-radius: 10px;
@@ -130,7 +114,6 @@
             margin-bottom: 15px;
             border-left: 4px solid #667eea;
         }
-
         .safety-warning {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
@@ -139,13 +122,11 @@
             margin: 20px 0;
             border-left: 4px solid #f39c12;
         }
-
         .safety-warning .icon {
             display: inline-block;
             margin-right: 10px;
             font-size: 1.2em;
         }
-
         .visual-aid {
             background: #e3f2fd;
             border-radius: 10px;
@@ -154,7 +135,6 @@
             text-align: center;
             border: 2px dashed #2196F3;
         }
-
         .checkbox-item {
             display: flex;
             align-items: center;
@@ -165,21 +145,36 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-
         .checkbox-item:hover {
             background: #e9ecef;
         }
-
         .checkbox-item input[type="checkbox"] {
             margin-right: 15px;
             transform: scale(1.2);
         }
-
         .checkbox-item.checked {
             background: #d4edda;
             border-left: 4px solid #28a745;
         }
-
+        .text-input-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
         .action-buttons {
             display: flex;
             justify-content: space-between;
@@ -194,7 +189,6 @@
             backdrop-filter: blur(10px);
             z-index: 100;
         }
-
         .btn {
             padding: 15px 35px;
             border: none;
@@ -208,18 +202,15 @@
             min-width: 140px;
             text-align: center;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: 2px solid transparent;
         }
-
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-
         .btn-primary:disabled {
             background: #cccccc;
             color: #666666;
@@ -227,25 +218,21 @@
             transform: none !important;
             box-shadow: none;
         }
-
         .btn-secondary {
             background: #6c757d;
             color: white;
             border: 2px solid transparent;
         }
-
         .btn-secondary:hover:not(:disabled) {
             background: #5a6268;
             transform: translateY(-2px);
         }
-
         .btn-secondary:disabled {
             background: #cccccc;
             color: #666666;
             cursor: not-allowed;
             transform: none !important;
         }
-
         .completion-card {
             background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
@@ -255,12 +242,10 @@
             margin-top: 30px;
             display: none;
         }
-
         .completion-card.show {
             display: block;
             animation: bounceIn 1s ease;
         }
-
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -271,7 +256,6 @@
                 transform: translateY(0);
             }
         }
-
         @keyframes bounceIn {
             0% {
                 transform: scale(0.3);
@@ -288,56 +272,21 @@
                 opacity: 1;
             }
         }
-
-        .software-interface {
-            background: #f8f9fa;
-            border: 2px solid #dee2e6;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+        @keyframes pulse {
+            0% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6); }
+            100% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
         }
-
-        .interface-button {
-            display: inline-block;
-            background: #007bff;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 5px;
-            margin: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
-
-        .interface-button:hover {
-            background: #0056b3;
-        }
-
-        .data-table {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow-x: auto;
-        }
-
-        .data-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .data-table th,
-        .data-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .data-table th {
-            background: #f8f9fa;
-            font-weight: bold;
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -360,447 +309,213 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🌪️ Wind Tunnel Laboratory</h1>
-            <p>Interactive Procedure for NACA0015 Aerofoil Testing</p>
+            <h1>⚖️ Bending of Beams</h1>
+            <p>Helping you setup the Shimadzu machines to run the Beams experiment</p>
         </div>
-
         <div class="progress-container">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="step-counter" id="stepCounter">Step 1 of 12</div>
+            <div class="step-counter" id="stepCounter">Step 1 of 7</div>
         </div>
-
-        <!-- Step 1: Setup -->
+        
+        <!-- Step 1: Before you start -->
         <div class="step-card active" id="step1">
             <div class="step-header">
                 <div class="step-number">1</div>
-                <div class="step-title">Initial Setup & Power Connection</div>
+                <div class="step-title">Before you start</div>
             </div>
             <div class="step-content">
-                <div class="safety-warning">
-                    <span class="icon">⚠️</span>
-                    <strong>Safety First:</strong> Ensure all power connections are secure before proceeding.
-                </div>
-                
-                <div class="instruction-item">
-                    <h4>🔌 Power Connections</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step1" value="power-computer">
-                        <span>Connect computer to mains power and switch on</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step1" value="power-tunnel">
-                        <span>Connect wind tunnel to mains power and switch on</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step1" value="check-illumination">
-                        <span>Verify that switches on steel controller boxes are illuminated</span>
-                    </label>
-                </div>
-
-                <div class="visual-aid">
-                    <h4>🎯 Visual Check Point</h4>
-                    <p>Look for the red switch on the IFD7 steel control box (left side of wind tunnel, under the fan)</p>
+                <div class="text-input-item">
+                    <h4>📋 Machine Identification</h4>
+                    <p>Look at the side of your Shimadzu and write down your machines number</p>
+                    <input type="text" class="text-input" id="machineNumber" placeholder="Enter machine number here...">
                 </div>
             </div>
         </div>
 
-        <!-- Step 2: Software -->
+        <!-- Step 2: Programming the Machine -->
         <div class="step-card" id="step2">
             <div class="step-header">
                 <div class="step-number">2</div>
-                <div class="step-title">Launch Software & Load Exercise</div>
+                <div class="step-title">Programming the Machine</div>
             </div>
             <div class="step-content">
                 <div class="instruction-item">
-                    <h4>💻 Software Launch</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step2" value="login">
-                        <span>Log into computer with university username and password</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step2" value="launch-software">
-                        <span>Start "C15-11 Wind Tunnel" software (use search bar if needed)</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step2" value="select-exercise">
-                        <span>Select "Exercise G: Lift and Drag on an Aerofoil"</span>
-                    </label>
+                    <p>We have made a program file for you (a 'Method' file .xml), which tells the machine what to do. You need to find it and open it.</p>
+                    <p><strong>On the laptop next to the Shimadzu, do the following:</strong></p>
                 </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="open-trapezium">
+                    <span>Open Trapezium X software if its not already loaded up</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="click-open-method">
+                    <span>Click "Open Method"</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="navigate-folder">
+                    <span>Navigate to the Desktop, and then into a folder called "Bending". If this doesnt exist look for "CIV1000" or "MEC11003"</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="find-xml">
+                    <span>Within one of these folders should be a file called "Bending.xml" or similar.</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="open-file">
+                    <span>Open it</span>
+                </label>
 
-                <div class="software-interface">
-                    <h4>🖥️ Software Interface</h4>
-                    <p>You should see these key controls:</p>
-                    <span class="interface-button">Fan Speed Control</span>
-                    <span class="interface-button">Fan On/Off</span>
-                    <span class="interface-button">Measure Velocity</span>
-                    <span class="interface-button">Measure Lift</span>
-                    <span class="interface-button">Measure Drag</span>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>The Trapezium X software should now have loaded an empty graph, signifying it is ready to go.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step 3: Communication Check -->
+        <!-- Step 3: Configure the Bending Supports -->
         <div class="step-card" id="step3">
             <div class="step-header">
                 <div class="step-number">3</div>
-                <div class="step-title">Verify Communication</div>
+                <div class="step-title">Configure the Bending Supports</div>
             </div>
             <div class="step-content">
                 <div class="instruction-item">
-                    <h4>📡 System Communication</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step3" value="watchdog-green">
-                        <span>Confirm "Watchdog Enabled" radio button shows GREEN</span>
-                    </label>
+                    <p>A 3 point bending test has....3 points which contact the beam. The 2 lower supports (which provide a reaction force) and the central one which applies the load.</p>
+                    <p><strong>Do the following:</strong></p>
                 </div>
-
-                <div class="safety-warning">
-                    <span class="icon">🔧</span>
-                    <strong>Troubleshooting:</strong> If watchdog isn't green, try unplugging and reconnecting USB cable from IDF7 control box. If problem persists, alert staff immediately.
-                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="check-spacing">
+                    <span>Check the supports are spaced correctly - for this labs its 150mm. Use an Alan Key to adjust and slide the supports if needed</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="check-tightness">
+                    <span>Check the supports and the loading point are not loose by lightly shaking them</span>
+                </label>
             </div>
         </div>
 
-        <!-- Step 4: Calibration -->
+        <!-- Step 4: Arrange the Beam -->
         <div class="step-card" id="step4">
             <div class="step-header">
                 <div class="step-number">4</div>
-                <div class="step-title">Calibrate Instruments</div>
+                <div class="step-title">Arrange the Beam</div>
             </div>
             <div class="step-content">
                 <div class="instruction-item">
-                    <h4>⚖️ Zero Calibration (Fan OFF)</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step4" value="fan-stopped">
-                        <span>Ensure fan is completely stopped (not spinning)</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step4" value="zero-pressure">
-                        <span>Press "Zero" button for static pressure reading</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step4" value="zero-drag">
-                        <span>Press "Zero" button for drag reading</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step4" value="zero-lift">
-                        <span>Press "Zero" button for lift reading</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step4" value="verify-zeros">
-                        <span>Verify all readings show 0.0 m/s or N</span>
-                    </label>
+                    <p>Lets get the beam in the correct position....</p>
+                    <p><strong>Do the following:</strong></p>
                 </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="place-beam">
+                    <span>Place one of the beams onto the supports, making sure its not skewed/looks diagonally positioned</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="lower-loading">
+                    <span>Lower the loading point until its near (not touching) the top of the beam. This is done using the Shimadzu panel buttons (On. Up. Down.)</span>
+                </label>
 
-                <div class="safety-warning">
-                    <span class="icon">⏱️</span>
-                    <strong>Time Saver:</strong> Don't spend too long on perfect calibration - you have limited lab time!
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>What catches some people out is not activating the panel buttons. Make sure the green light is on next to the up/down buttons. If its not, press the 'On' button a couple times.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step 5: Zero Angle -->
+        <!-- Step 5: Final Touches -->
         <div class="step-card" id="step5">
             <div class="step-header">
                 <div class="step-number">5</div>
-                <div class="step-title">Find Zero Angle of Attack</div>
+                <div class="step-title">Final Touches</div>
             </div>
             <div class="step-content">
                 <div class="instruction-item">
-                    <h4>📐 Angle Calibration</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step5" value="visual-zero">
-                        <span>Approximately set wing to zero angle using visual markings</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step5" value="zero-rotation">
-                        <span>Press "Zero" button next to rotation display</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step5" value="test-fan">
-                        <span>Start fan briefly to test zero lift condition</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step5" value="adjust-if-needed">
-                        <span>Adjust angle if lift changes significantly when fan starts</span>
-                    </label>
+                    <p>We need the loading point to be JUST touching the beam, ideally with no air gaps, and without applying any force yet.</p>
+                    <p><strong>Do the following:</strong></p>
                 </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="check-gap">
+                    <span>Check you have a small air gap to start with. Maybe 1 or 2 mm between the loading point and the top of the beam</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="zero-force">
+                    <span>Zero the force the machine is registering by pressing the 'Force' Button</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="lower-carefully">
+                    <span>Use the panel spin-wheel to carefully lower the loading arm. Keep an eye on the digital force reading....once that suddenly increases, stop! This means you are now touching the beam</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="back-off">
+                    <span>Slowly back off using the spin-wheel until the Force is approximately zero again</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="zero-stroke">
+                    <span>Zero the stroke (displacement)</span>
+                </label>
 
                 <div class="visual-aid">
-                    <h4>🎯 Zero Lift Check</h4>
-                    <p><strong>True zero angle:</strong> Lift reading should not change when air flows over wing</p>
-                    <p><strong>Wing tilted up:</strong> Lift should increase</p>
-                    <p><strong>Wing tilted down:</strong> Lift should become negative</p>
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>We now know that there is no air gap and almost no applied force.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step 6: Fan Settings -->
+        <!-- Step 6: Running the Test -->
         <div class="step-card" id="step6">
             <div class="step-header">
                 <div class="step-number">6</div>
-                <div class="step-title">Configure Fan Speed</div>
+                <div class="step-title">Running the Test</div>
             </div>
             <div class="step-content">
                 <div class="instruction-item">
-                    <h4>🌪️ Fan Configuration</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step6" value="set-speed">
-                        <span>Set fan speed to 60%</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step6" value="fan-on">
-                        <span>Click "Fan On" radio button (should turn green)</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step6" value="wait-settle">
-                        <span>Wait 30-60 seconds for readings to stabilize</span>
-                    </label>
+                    <p>Now you are ready to set the machine off to run the test</p>
+                    <p><strong>Do the following:</strong></p>
                 </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step6" value="press-green">
+                    <span>Press the green panel button</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step6" value="confirm-ready">
+                    <span>It asks if you are ready.... press the green button again</span>
+                </label>
 
-                <div class="safety-warning">
-                    <span class="icon">🔊</span>
-                    <strong>Safety Limit:</strong> Never exceed 60% fan power without proper PPE. Never exceed 80% under any circumstances.
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>Observe the graph being plotted on the laptop screen showing force applied and the central displacement (stroke) of the machine</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step 7: Data Collection Setup -->
+        <!-- Step 7: Recording and Processing Data -->
         <div class="step-card" id="step7">
             <div class="step-header">
                 <div class="step-number">7</div>
-                <div class="step-title">Setup Data Collection</div>
+                <div class="step-title">Recording and Processing Data</div>
             </div>
             <div class="step-content">
                 <div class="instruction-item">
-                    <h4>📊 Data Recording Configuration</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step7" value="click-setup">
-                        <span>Click "SetUp" button</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step7" value="select-automatic">
-                        <span>Select "Automatic" and "Continuous"</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step7" value="set-interval">
-                        <span>Set sample interval to 20 seconds</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step7" value="press-ok">
-                        <span>Press OK to confirm settings</span>
-                    </label>
-                </div>
-
-                <div class="visual-aid">
-                    <h4>⏰ Why 20 Seconds?</h4>
-                    <p>This gives you enough time to change the angle of attack between measurements</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 8: Start Recording -->
-        <div class="step-card" id="step8">
-            <div class="step-header">
-                <div class="step-number">8</div>
-                <div class="step-title">Begin Data Collection</div>
-            </div>
-            <div class="step-content">
-                <div class="instruction-item">
-                    <h4>📝 Start Recording</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step8" value="click-table">
-                        <span>Click "Table" button</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step8" value="press-go">
-                        <span>Press "Go" to start data collection</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step8" value="zero-angle-first">
-                        <span>Start with wing at zero angle of attack</span>
-                    </label>
-                </div>
-
-                <div class="data-table">
-                    <h4>📋 Data Collection Table</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Angle of Attack (°)</th>
-                                <th>Velocity (m/s)</th>
-                                <th>Lift (N)</th>
-                                <th>Drag (N)</th>
-                                <th>Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td>Record</td>
-                                <td>Record</td>
-                                <td>Record</td>
-                                <td>Flow stable</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Record</td>
-                                <td>Record</td>
-                                <td>Record</td>
-                                <td>...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 9: Data Collection -->
-        <div class="step-card" id="step9">
-            <div class="step-header">
-                <div class="step-number">9</div>
-                <div class="step-title">Collect Data Points</div>
-            </div>
-            <div class="step-content">
-                <div class="instruction-item">
-                    <h4>📊 Systematic Data Collection</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step9" value="record-notes">
-                        <span>Write angle of attack in Notes field</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step9" value="wait-settle">
-                        <span>Wait 30 seconds after changing angle for flow to settle</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step9" value="record-all">
-                        <span>Record velocity, lift, and drag for each angle</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step9" value="increment-angle">
-                        <span>Increase angle by 2° increments up to 20°</span>
-                    </label>
-                </div>
-
-                <div class="safety-warning">
-                    <span class="icon">🎛️</span>
-                    <strong>Angle Adjustment:</strong> Use the small metal lever on the back of the force balance. Apply gentle force until familiar with required pressure.
-                </div>
-
-                <div class="visual-aid">
-                    <h4>📈 Expected Trends</h4>
-                    <p><strong>Lift:</strong> Should initially rise, then drop after critical angle (~15-18°)</p>
-                    <p><strong>Drag:</strong> Should increase more steeply as angle increases</p>
-                    <p><strong>Velocity:</strong> May change slightly as wing is rotated - record for each reading</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 10: Complete Collection -->
-        <div class="step-card" id="step10">
-            <div class="step-header">
-                <div class="step-number">10</div>
-                <div class="step-title">Finalize Data Collection</div>
-            </div>
-            <div class="step-content">
-                <div class="instruction-item">
-                    <h4>✅ Complete Your Dataset</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step10" value="all-angles">
-                        <span>Collected data for all planned angles (0° to 20° in 2° increments)</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step10" value="quality-check">
-                        <span>Verified data quality - readings appear reasonable</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step10" value="stop-collection">
-                        <span>Click "Stop" to pause data collection</span>
-                    </label>
-                </div>
-
-                <div class="visual-aid">
-                    <h4>🔍 Data Quality Check</h4>
-                    <p>It's normal for readings to fluctuate - aerodynamics is empirical and uncertain!</p>
-                    <p>Use measurement techniques from previous labs to handle uncertainty</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 11: Save Data -->
-        <div class="step-card" id="step11">
-            <div class="step-header">
-                <div class="step-number">11</div>
-                <div class="step-title">Save & Export Data</div>
-            </div>
-            <div class="step-content">
-                <div class="instruction-item">
-                    <h4>💾 Data Export</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step11" value="save-excel">
-                        <span>Save file as Excel 5.0 format</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step11" value="include-metadata">
-                        <span>Include fan power, ambient temperature, and other settings</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step11" value="backup-copy">
-                        <span>Create backup copy of data file</span>
-                    </label>
-                </div>
-
-                <div class="safety-warning">
-                    <span class="icon">📁</span>
-                    <strong>File Management:</strong> Use descriptive filename including date, group members, and experiment details.
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 12: Shutdown -->
-        <div class="step-card" id="step12">
-            <div class="step-header">
-                <div class="step-number">12</div>
-                <div class="step-title">Safe Shutdown</div>
-            </div>
-            <div class="step-content">
-                <div class="instruction-item">
-                    <h4>🔌 Proper Shutdown Sequence</h4>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step12" value="fan-off">
-                        <span>Turn fan OFF using "Fan On" radio button</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step12" value="wait-stop">
-                        <span>Wait for fan to completely stop spinning</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step12" value="close-software">
-                        <span>Close wind tunnel software</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="step12" value="power-down">
-                        <span>Switch off wind tunnel and computer power</span>
-                    </label>
-                </div>
-
-                <div class="safety-warning">
-                    <span class="icon">⚠️</span>
-                    <strong>Important:</strong> DO NOT remove the wing model from the working section. Alert staff if there are any issues.
+                    <p>You can now repeat all those previous steps, for each beam until you have tested them all.</p>
+                    <br>
+                    <p><strong>Now return to the labsheet & spreadsheet which will guide you in what to do with your data.</strong></p>
                 </div>
             </div>
         </div>
 
         <div class="completion-card" id="completionCard">
             <h2>🎉 Congratulations!</h2>
-            <p>You have successfully completed the wind tunnel laboratory procedure!</p>
+            <p>You have successfully completed the Bending of Beams laboratory procedure!</p>
             <p><strong>Next Steps:</strong></p>
             <ul style="list-style: none; padding: 0;">
-                <li>✅ Process your data using the provided template</li>
-                <li>✅ Calculate lift and drag coefficients</li>
-                <li>✅ Compare results with NACA0015 standard data</li>
+                <li>✅ Process your beam test data</li>
+                <li>✅ Calculate bending moments and deflections</li>
+                <li>✅ Compare theoretical vs experimental results</li>
                 <li>✅ Complete your laboratory report</li>
             </ul>
         </div>
@@ -813,12 +528,13 @@
 
     <script>
         let currentStep = 1;
-        const totalSteps = 12;
+        const totalSteps = 7;
 
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
             updateProgress();
             setupCheckboxListeners();
+            setupTextInputListener();
             updateButtons();
         });
 
@@ -841,22 +557,46 @@
             });
         }
 
+        function setupTextInputListener() {
+            const textInput = document.getElementById('machineNumber');
+            if (textInput) {
+                textInput.addEventListener('input', function() {
+                    checkStepCompletion();
+                });
+            }
+        }
+
         function checkStepCompletion() {
             const currentStepElement = document.getElementById(`step${currentStep}`);
-            const checkboxes = currentStepElement.querySelectorAll('input[type="checkbox"]');
-            const checkedBoxes = currentStepElement.querySelectorAll('input[type="checkbox"]:checked');
-            
             const nextBtn = document.getElementById('nextBtn');
             
-            // Debug logging
-            console.log(`Step ${currentStep}: ${checkedBoxes.length}/${checkboxes.length} boxes checked`);
+            let isComplete = false;
+
+            if (currentStep === 1) {
+                // Step 1: Check if text input has content
+                const textInput = document.getElementById('machineNumber');
+                isComplete = textInput && textInput.value.trim().length > 0;
+            } else if (currentStep === 7) {
+                // Step 7: No requirements, always complete
+                isComplete = true;
+            } else {
+                // Other steps: Check if all checkboxes are checked
+                const checkboxes = currentStepElement.querySelectorAll('input[type="checkbox"]');
+                const checkedBoxes = currentStepElement.querySelectorAll('input[type="checkbox"]:checked');
+                isComplete = checkboxes.length === checkedBoxes.length && checkboxes.length > 0;
+            }
             
-            if (checkboxes.length === checkedBoxes.length && checkboxes.length > 0) {
+            if (isComplete) {
                 nextBtn.disabled = false;
                 nextBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
                 nextBtn.style.color = 'white';
                 nextBtn.style.transform = 'scale(1.05)';
-                nextBtn.textContent = `✓ Continue to Step ${currentStep + 1}`;
+                
+                if (currentStep < totalSteps) {
+                    nextBtn.textContent = `✓ Continue to Step ${currentStep + 1}`;
+                } else {
+                    nextBtn.textContent = '✓ Complete Lab';
+                }
                 
                 // Make it pulse to draw attention
                 nextBtn.style.animation = 'pulse 1.5s infinite';
@@ -996,99 +736,17 @@
             prevBtn.disabled = currentStep === 1;
             prevBtn.style.opacity = currentStep === 1 ? '0.6' : '1';
             
-            // Next button text changes on last step
+            // Next button - special handling for step 7
             if (currentStep === totalSteps) {
-                nextBtn.textContent = 'Complete Lab';
-                nextBtn.onclick = completeExperiment;
+                nextBtn.style.display = 'none';  // Hide next button on final step
             } else {
-                nextBtn.textContent = 'Next Step';
+                nextBtn.style.display = 'block';
                 nextBtn.onclick = nextStep;
             }
             
             // Check if current step requirements are met
             checkStepCompletion();
         }
-
-        function completeExperiment() {
-            // Mark final step as completed
-            const finalStep = document.getElementById(`step${totalSteps}`);
-            finalStep.classList.add('completed');
-            
-            // Show completion card
-            const completionCard = document.getElementById('completionCard');
-            completionCard.classList.add('show');
-            completionCard.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-            
-            // Update progress to 100%
-            const progressFill = document.getElementById('progressFill');
-            progressFill.style.width = '100%';
-            
-            // Hide action buttons
-            const actionButtons = document.querySelector('.action-buttons');
-            actionButtons.style.display = 'none';
-            
-            // Add confetti effect (simple celebration)
-            celebrateCompletion();
-        }
-
-        function celebrateCompletion() {
-            // Create a simple celebration effect
-            const celebration = document.createElement('div');
-            celebration.innerHTML = '🎉';
-            celebration.style.position = 'fixed';
-            celebration.style.fontSize = '3em';
-            celebration.style.zIndex = '9999';
-            celebration.style.pointerEvents = 'none';
-            
-            // Animate celebration emojis
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    const emoji = celebration.cloneNode(true);
-                    emoji.style.left = Math.random() * 100 + 'vw';
-                    emoji.style.top = '-50px';
-                    emoji.style.animation = 'fall 3s ease-in-out forwards';
-                    document.body.appendChild(emoji);
-                    
-                    setTimeout(() => {
-                        document.body.removeChild(emoji);
-                    }, 3000);
-                }, i * 200);
-            }
-        }
-
-        // Add CSS for animations
-        const additionalStyles = `
-            @keyframes pulse {
-                0% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
-                50% { transform: scale(1.1); box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6); }
-                100% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
-            }
-            
-            @keyframes slideIn {
-                from { 
-                    opacity: 0; 
-                    transform: translateY(-20px); 
-                }
-                to { 
-                    opacity: 1; 
-                    transform: translateY(0); 
-                }
-            }
-            
-            @keyframes fall {
-                to {
-                    transform: translateY(100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = additionalStyles;
-        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
