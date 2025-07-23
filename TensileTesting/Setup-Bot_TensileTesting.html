@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tensile Testing Lab Procedure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        .step-counter {
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+        .step-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            border-left: 5px solid #667eea;
+        }
+        .step-card.active {
+            transform: translateY(0);
+            opacity: 1;
+            border-left-color: #4CAF50;
+        }
+        .step-card.completed {
+            background: #f8f9fa;
+            border-left-color: #28a745;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+        }
+        .step-content {
+            margin-left: 70px;
+        }
+        .instruction-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .safety-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #f39c12;
+        }
+        .safety-warning .icon {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .visual-aid {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px dashed #2196F3;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        .checkbox-item.checked {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .text-input-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+            position: sticky;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 140px;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: 2px solid transparent;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:disabled {
+            background: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: 2px solid transparent;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .btn-secondary:disabled {
+            background: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .completion-card {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+        .completion-card.show {
+            display: block;
+            animation: bounceIn 1s ease;
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6); }
+            100% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
+        }
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .step-content {
+                margin-left: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Tensile Testing</h1>
+            <p>Helping you set up the Shimadzu machines for the Tensile Testing experiment</p>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="step-counter" id="stepCounter">Step 1 of 6</div>
+        </div>
+        
+        <!-- Step 1: Programming the Machine -->
+        <div class="step-card active" id="step1">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Programming the Machine</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>We have made a program file for you (a 'Method' file .xml), which tells the machine what to do. You need to find it and open it.</p>
+                    <p><strong>On the laptop next to the Shimadzu, do the following:</strong></p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="open-trapezium">
+                    <span>Open Trapezium X software if its not already loaded up</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="click-open-method">
+                    <span>Click "Open Method"</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="navigate-folder">
+                    <span>Navigate to the Desktop, and then into a folder called "Tensile Testing". If this doesnt exist look for "MEC11002" or "MEC102"</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="find-xml">
+                    <span>Within one of these folders should be a file called "Bending.xml" or similar.</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="open-file">
+                    <span>Open it</span>
+                </label>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>The Trapezium X software should now have loaded an empty graph, signifying it is ready to go.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Measuring the Samples -->
+        <div class="step-card" id="step2">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Measuring the Samples</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>We need to measure them BEFORE we break them... in order to do our calculations later</p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="measure-dimensions">
+                    <span>Use the digital callipers to measure the dimensions of each sample and record those on the printout (Table 1).</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="calculate-area">
+                    <span>Calculate the cross sectional area in mm² - add it to the table</span>
+                </label>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>Check you have measurements for all samples written down.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Installing the Sample -->
+        <div class="step-card" id="step3">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Installing the Sample</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>Position the sample ready for testing...</p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="place-lower-grip">
+                    <span>Place the end of the specimen inside the lower grip of the Shimadzu machine and tighten the grip. Dont over tighten</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="check-position">
+                    <span>Make sure the wide part of the specimen is nearly contained in the grips, and that it is vertical (i.e. not skewed diagonally)</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="zero-force">
+                    <span>Zero the force of the machine before attaching the top grip. This is done by pressing the 'zero' buttons on the Shimadzu.</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="attach-top-grip">
+                    <span>Using the Shimadzu machine controls, carefully lower the top grip so that the top end of the specimen can fit inside. Tighten, but be careful not to bend/twist the specimen</span>
+                </label>
+                <div class="safety-warning">
+                    <span class="icon">⚠️</span>
+                    <strong>Important:</strong> Once both grips have been tightened, never zero the force again. Whatever force we have within the sample now is the true force – we must not 'get rid' of it.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Running the Test -->
+        <div class="step-card" id="step4">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-title">Running the Test</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>Nearly there....</p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="zero-stroke">
+                    <span>Zero the stroke of the machine</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="press-start">
+                    <span>Start the test by pressing the green 'Start' button</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="confirm-ready">
+                    <span>It asks if you are ready.... press the green button again</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="observe-graph">
+                    <span>Observe the graph being plotted on the laptop screen showing force applied and the elongation (stroke) of the machine.</span>
+                </label>
+                <div class="safety-warning">
+                    <span class="icon">⚠️</span>
+                    <strong>Safety Notes:</strong> The test will stop automatically once the specimen has failed. If it doesn't, grab a teacher and ask.
+                    Also...if the test has taken 5 minutes and isnt finished, something is wrong. Ask a teacher
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Doing the Next Tests -->
+        <div class="step-card" id="step5">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-title">Doing the Next Tests</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>We've just done 1 test, and there are more samples to do. You do not need to save the data for sample 1 - you can save all the data together at the end.</p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="remove-sample">
+                    <span>Remove the broken sample from the machine</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="configure-next">
+                    <span>Configure the next sample in the same way you just did</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="start-again">
+                    <span>Once ready, you can press the green 'Start' button again - dont worry you won't lose the data from the last test, it will be stored for saving later</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="repeat-final">
+                    <span>Repeat again for the final sample</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Step 6: Data Processing -->
+        <div class="step-card" id="step6">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <div class="step-title">Data Processing</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>Save the data and analyse it to calculate material properties...</p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step6" value="locate-usb">
+                    <span>Locate your USB stick. If you can't see it then open the top draw of the Shimadzu workbench. If its not in there, as a teacher for help</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step6" value="save-csv">
+                    <span>Press the "Save as .CSV" button. If this doesnt show, click on the top menu 'Export/Export as CSV' and save the file as a .CSV to the USB stick</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step6" value="transfer-file">
+                    <span>Use the USB stick to move the file across to the other laptop (the one not connected to the Shimadzu)</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step6" value="return-labsheet">
+                    <span>Return to the labsheet for instructions on analysing the data</span>
+                </label>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>This is now the end the experimental tests!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-card" id="completionCard">
+            <h2>🎉 Congratulations!</h2>
+            <p>You have successfully completed the Tensile Testing experimental procedure</p>
+            <p><strong>Next Steps:</strong></p>
+            <ul style="list-style: none; padding: 0;">
+                <li>✅ Process your tensile test data using the spreadsheet</li>
+                <li>✅ Calculate material properties (Young's modulus, ultimate strength, etc.)</li>
+                <li>✅ Compare your results with theoretical values</li>
+            </ul>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            setupCheckboxListeners();
+            updateButtons();
+        });
+
+        function setupCheckboxListeners() {
+            // Add event listeners to all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Update visual styling
+                    const item = this.closest('.checkbox-item');
+                    if (this.checked) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                    
+                    // Check if current step is complete
+                    checkStepCompletion();
+                });
+            });
+        }
+
+        function checkStepCompletion() {
+            const currentStepElement = document.getElementById(`step${currentStep}`);
+            const nextBtn = document.getElementById('nextBtn');
+            
+            let isComplete = false;
+            
+            if (currentStep === 6) {
+                // Step 6: No requirements, always complete
+                isComplete = true;
+            } else {
+                // Other steps: Check if all checkboxes are checked
+                const checkboxes = currentStepElement.querySelectorAll('input[type="checkbox"]');
+                const checkedBoxes = currentStepElement.querySelectorAll('input[type="checkbox"]:checked');
+                isComplete = checkboxes.length === checkedBoxes.length && checkboxes.length > 0;
+            }
+            
+            if (isComplete) {
+                nextBtn.disabled = false;
+                nextBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                nextBtn.style.color = 'white';
+                nextBtn.style.transform = 'scale(1.05)';
+                
+                if (currentStep < totalSteps) {
+                    nextBtn.textContent = `✓ Continue to Step ${currentStep + 1}`;
+                } else {
+                    nextBtn.textContent = '✓ Complete Lab';
+                }
+                
+                // Make it pulse to draw attention
+                nextBtn.style.animation = 'pulse 1.5s infinite';
+                
+                // Show success message
+                showStepCompletionMessage();
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.style.background = '#cccccc';
+                nextBtn.style.color = '#666666';
+                nextBtn.style.transform = 'scale(1)';
+                nextBtn.style.animation = 'none';
+                nextBtn.textContent = `Complete Step ${currentStep} First`;
+                
+                hideStepCompletionMessage();
+            }
+        }
+
+        function showStepCompletionMessage() {
+            // Remove any existing message
+            const existingMessage = document.querySelector('.completion-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Create success message
+            const message = document.createElement('div');
+            message.className = 'completion-message';
+            message.innerHTML = '🎉 Step completed!';
+            message.style.cssText = `
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                text-align: center;
+                margin: 15px 0;
+                font-weight: bold;
+                animation: slideIn 0.5s ease;
+            `;
+            
+            // Insert before action buttons
+            const actionButtons = document.querySelector('.action-buttons');
+            actionButtons.parentNode.insertBefore(message, actionButtons);
+        }
+
+        function hideStepCompletionMessage() {
+            const message = document.querySelector('.completion-message');
+            if (message) {
+                message.remove();
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                // Mark current step as completed
+                const currentStepElement = document.getElementById(`step${currentStep}`);
+                currentStepElement.classList.remove('active');
+                currentStepElement.classList.add('completed');
+                
+                // Move to next step
+                currentStep++;
+                const nextStepElement = document.getElementById(`step${currentStep}`);
+                
+                // Scroll into view smoothly
+                nextStepElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                // Activate next step with a slight delay for smooth animation
+                setTimeout(() => {
+                    nextStepElement.classList.add('active');
+                }, 300);
+                
+                updateProgress();
+                updateButtons();
+                checkStepCompletion();
+            }
+            
+            // Show completion card if on last step
+            if (currentStep === totalSteps) {
+                const completionCard = document.getElementById('completionCard');
+                setTimeout(() => {
+                    completionCard.classList.add('show');
+                    completionCard.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 1000);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                // Remove active class from current step
+                const currentStepElement = document.getElementById(`step${currentStep}`);
+                currentStepElement.classList.remove('active');
+                
+                // Move to previous step
+                currentStep--;
+                const prevStepElement = document.getElementById(`step${currentStep}`);
+                
+                // Remove completed class and add active class
+                prevStepElement.classList.remove('completed');
+                prevStepElement.classList.add('active');
+                
+                // Scroll into view
+                prevStepElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                updateProgress();
+                updateButtons();
+                checkStepCompletion();
+                
+                // Hide completion card if going back from last step
+                const completionCard = document.getElementById('completionCard');
+                completionCard.classList.remove('show');
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            const progressFill = document.getElementById('progressFill');
+            const stepCounter = document.getElementById('stepCounter');
+            
+            progressFill.style.width = progress + '%';
+            stepCounter.textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Previous button
+            prevBtn.disabled = currentStep === 1;
+            prevBtn.style.opacity = currentStep === 1 ? '0.6' : '1';
+            
+            // Next button - special handling for step 6
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';  // Hide next button on final step
+            } else {
+                nextBtn.style.display = 'block';
+                nextBtn.onclick = nextStep;
+            }
+            
+            // Check if current step requirements are met
+            checkStepCompletion();
+        }
+    </script>
+</body>
+</html>
