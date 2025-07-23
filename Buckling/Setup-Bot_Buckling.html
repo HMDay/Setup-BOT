@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buckling of Struts Lab Procedure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        .step-counter {
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+        .step-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            border-left: 5px solid #667eea;
+        }
+        .step-card.active {
+            transform: translateY(0);
+            opacity: 1;
+            border-left-color: #4CAF50;
+        }
+        .step-card.completed {
+            background: #f8f9fa;
+            border-left-color: #28a745;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+        }
+        .step-content {
+            margin-left: 70px;
+        }
+        .instruction-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .safety-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #f39c12;
+        }
+        .safety-warning .icon {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .visual-aid {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px dashed #2196F3;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        .checkbox-item.checked {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .text-input-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+            position: sticky;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 140px;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: 2px solid transparent;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:disabled {
+            background: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: 2px solid transparent;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .btn-secondary:disabled {
+            background: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .completion-card {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+        .completion-card.show {
+            display: block;
+            animation: bounceIn 1s ease;
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6); }
+            100% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
+        }
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .step-content {
+                margin-left: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Buckling of Struts</h1>
+            <p>Helping you setup the Shimadzu machines to run the Buckling experiment</p>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="step-counter" id="stepCounter">Step 1 of 5</div>
+        </div>
+        
+        <!-- Step 1: Programming the Machine -->
+        <div class="step-card active" id="step1">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Programming the Machine</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>The Shimadzu Machine gets its instructions (how fast to move/how much force to apply) from the Trapezium X software. You must make the "Method File" for the Trapezium X software.</p>
+                    <p><strong>Do the following:</strong></p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="create-method">
+                    <span>Click the "Create new method" button</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="compression-test">
+                    <span>Choose a single compression test, with polarity set to "Compression" and force direction "Down"</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="set-limits">
+                    <span>Set the maximum load to 5000N, and max displacement to 150mm</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="test-speed">
+                    <span>Make the test speed 1mm/min, and adjust the sampling rate to 100msec (every 10msec would create too many data points)</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="batch-samples">
+                    <span>Select 1 batch, 5 samples per batch</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="chart-limits">
+                    <span>Set the chart limits to be 0N-500N, and 0mm-5mm. This is the size of how large the software draws its initial graph</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step1" value="test-method">
+                    <span>Click "Test with this method" - you don't need to save the method file if asked by a pop-up</span>
+                </label>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>The Trapezium X software should now have loaded an empty graph, signifying it is ready to go.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Fixtures -->
+        <div class="step-card" id="step2">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Fixtures</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>A pinned end condition and a fixed end condition can be used. To start with we will do pin-pin conditions.</p>
+                    <p><strong>Do the following:</strong></p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="check-fixtures">
+                    <span>Check that the V shaped steel fixtures are fitted to the top and bottom arms of the machine</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="knife-edges">
+                    <span>Check you have the two "knife edge" pieces. These will rest inside the V shaped fixtures, which allow them to freely rotate</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step2" value="pick-strut">
+                    <span>Pick a strut to test</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Step 3: Getting the sample ready -->
+        <div class="step-card" id="step3">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Getting the sample ready</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>Now we need to configure the sample in the machine before we start the testing</p>
+                    <p><strong>Do the following:</strong></p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="raise-arm">
+                    <span>Using the Shimadzu panel buttons (On. Up. Down) raise the top arm to a distance a bit larger than the strut</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="knife-edges-strut">
+                    <span>Put one of the knife-edge pieces onto each side of a strut</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="place-strut">
+                    <span>Place the strut so that the knife-edges now rest within the V shaped fixtures. There may be a bit of an air gap</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="lower-arm">
+                    <span>Lower the top arm until it is nearly (but not touching) the top knife-edge</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="remove-gap">
+                    <span>Use the panel spin-wheel to carefully lower the loading arm removing any remaining air gap/slack. Keep an eye on the digital force reading....once that suddenly increases, stop! This means you are now touching</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="back-off">
+                    <span>Slowly back off using the spin-wheel until the Force is approximately zero again</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step3" value="zero-readings">
+                    <span>Zero the stroke and the force</span>
+                </label>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>What catches some people out is not activating the panel buttons. Make sure the green light is on next to the up/down buttons. If it's not, press the 'On' button a couple times.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Running the Test -->
+        <div class="step-card" id="step4">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-title">Running the Test</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>Now you are ready to set the machine off to run the test</p>
+                    <p><strong>Do the following:</strong></p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="press-green">
+                    <span>Press the green panel button</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="confirm-ready">
+                    <span>It asks if you are ready.... press the green button again</span>
+                </label>
+                <div class="visual-aid">
+                    <h4>🎯 Visual Check Point</h4>
+                    <p>Observe the graph being plotted on the laptop screen showing force applied and the displacement (stroke) of the machine</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Recording and Processing the Data -->
+        <div class="step-card" id="step5">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-title">Recording and Processing the Data</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>You can now repeat all those previous steps, for each strut until you have tested them all for pin-pin end conditions.</p>
+                    <br>
+                    <p>Check your spreadsheet/labsheet. If it asks you to do more test with different materials, or with fixed end conditions then do those now after swapping the pin fixtures for the...fixed fixtures.</p>
+                    <br>
+                    <p><strong>Then return to the labsheet & spreadsheet which will guide you in what to do with your data.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-card" id="completionCard">
+            <h2>🎉 Congratulations!</h2>
+            <p>You have successfully completed the Buckling of Struts laboratory procedure!</p>
+            <p><strong>Next Steps:</strong></p>
+            <ul style="list-style: none; padding: 0;">
+                <li>✅ Process your strut test data</li>
+                <li>✅ Calculate critical buckling loads</li>
+                <li>✅ Compare pin-pin vs fixed end conditions</li>
+                <li>✅ Complete your laboratory report</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            setupCheckboxListeners();
+            updateButtons();
+        });
+
+        function setupCheckboxListeners() {
+            // Add event listeners to all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Update visual styling
+                    const item = this.closest('.checkbox-item');
+                    if (this.checked) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                    
+                    // Check if current step is complete
+                    checkStepCompletion();
+                });
+            });
+        }
+
+        function checkStepCompletion() {
+            const currentStepElement = document.getElementById(`step${currentStep}`);
+            const nextBtn = document.getElementById('nextBtn');
+            
+            let isComplete = false;
+            
+            if (currentStep === 5) {
+                // Step 5: No requirements, always complete
+                isComplete = true;
+            } else {
+                // Other steps: Check if all checkboxes are checked
+                const checkboxes = currentStepElement.querySelectorAll('input[type="checkbox"]');
+                const checkedBoxes = currentStepElement.querySelectorAll('input[type="checkbox"]:checked');
+                isComplete = checkboxes.length === checkedBoxes.length && checkboxes.length > 0;
+            }
+            
+            if (isComplete) {
+                nextBtn.disabled = false;
+                nextBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                nextBtn.style.color = 'white';
+                nextBtn.style.transform = 'scale(1.05)';
+                
+                if (currentStep < totalSteps) {
+                    nextBtn.textContent = `✓ Continue to Step ${currentStep + 1}`;
+                } else {
+                    nextBtn.textContent = '✓ Complete Lab';
+                }
+                
+                // Make it pulse to draw attention
+                nextBtn.style.animation = 'pulse 1.5s infinite';
+                
+                // Show success message
+                showStepCompletionMessage();
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.style.background = '#cccccc';
+                nextBtn.style.color = '#666666';
+                nextBtn.style.transform = 'scale(1)';
+                nextBtn.style.animation = 'none';
+                nextBtn.textContent = `Complete Step ${currentStep} First`;
+                
+                hideStepCompletionMessage();
+            }
+        }
+
+        function showStepCompletionMessage() {
+            // Remove any existing message
+            const existingMessage = document.querySelector('.completion-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Create success message
+            const message = document.createElement('div');
+            message.className = 'completion-message';
+            message.innerHTML = '🎉 Step completed! Click "Continue" to proceed.';
+            message.style.cssText = `
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                text-align: center;
+                margin: 15px 0;
+                font-weight: bold;
+                animation: slideIn 0.5s ease;
+            `;
+            
+            // Insert before action buttons
+            const actionButtons = document.querySelector('.action-buttons');
+            actionButtons.parentNode.insertBefore(message, actionButtons);
+        }
+
+        function hideStepCompletionMessage() {
+            const message = document.querySelector('.completion-message');
+            if (message) {
+                message.remove();
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                // Mark current step as completed
+                const currentStepElement = document.getElementById(`step${currentStep}`);
+                currentStepElement.classList.remove('active');
+                currentStepElement.classList.add('completed');
+                
+                // Move to next step
+                currentStep++;
+                const nextStepElement = document.getElementById(`step${currentStep}`);
+                
+                // Scroll into view smoothly
+                nextStepElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                // Activate next step with a slight delay for smooth animation
+                setTimeout(() => {
+                    nextStepElement.classList.add('active');
+                }, 300);
+                
+                updateProgress();
+                updateButtons();
+                checkStepCompletion();
+            }
+            
+            // Show completion card if on last step
+            if (currentStep === totalSteps) {
+                const completionCard = document.getElementById('completionCard');
+                setTimeout(() => {
+                    completionCard.classList.add('show');
+                    completionCard.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 1000);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                // Remove active class from current step
+                const currentStepElement = document.getElementById(`step${currentStep}`);
+                currentStepElement.classList.remove('active');
+                
+                // Move to previous step
+                currentStep--;
+                const prevStepElement = document.getElementById(`step${currentStep}`);
+                
+                // Remove completed class and add active class
+                prevStepElement.classList.remove('completed');
+                prevStepElement.classList.add('active');
+                
+                // Scroll into view
+                prevStepElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                updateProgress();
+                updateButtons();
+                checkStepCompletion();
+                
+                // Hide completion card if going back from last step
+                const completionCard = document.getElementById('completionCard');
+                completionCard.classList.remove('show');
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            const progressFill = document.getElementById('progressFill');
+            const stepCounter = document.getElementById('stepCounter');
+            
+            progressFill.style.width = progress + '%';
+            stepCounter.textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Previous button
+            prevBtn.disabled = currentStep === 1;
+            prevBtn.style.opacity = currentStep === 1 ? '0.6' : '1';
+            
+            // Next button - special handling for step 5
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';  // Hide next button on final step
+            } else {
+                nextBtn.style.display = 'block';
+                nextBtn.onclick = nextStep;
+            }
+            
+            // Check if current step requirements are met
+            checkStepCompletion();
+        }
+    </script>
+</body>
+</html>
