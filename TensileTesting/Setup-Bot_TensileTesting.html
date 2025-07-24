@@ -599,11 +599,9 @@
             }
         }
         function showStepCompletionMessage() {
-            // Remove any existing message
-            const existingMessage = document.querySelector('.completion-message');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
+            // Remove ALL existing messages first (this fixes the accumulation issue)
+            const existingMessages = document.querySelectorAll('.completion-message');
+            existingMessages.forEach(message => message.remove());
             
             // Create success message
             const message = document.createElement('div');
@@ -625,10 +623,9 @@
             actionButtons.parentNode.insertBefore(message, actionButtons);
         }
         function hideStepCompletionMessage() {
-            const message = document.querySelector('.completion-message');
-            if (message) {
-                message.remove();
-            }
+            // Remove ALL completion messages (this ensures no messages are left behind)
+            const messages = document.querySelectorAll('.completion-message');
+            messages.forEach(message => message.remove());
         }
         function nextStep() {
             if (currentStep < totalSteps) {
