@@ -661,7 +661,10 @@
             // Show completion card if on last step
             if (currentStep === totalSteps) {
                 const completionCard = document.getElementById('completionCard');
+                const currentStepElement = document.getElementById(`step${currentStep}`);
                 setTimeout(() => {
+                    // Position the completion card right after the current step
+                    currentStepElement.parentNode.insertBefore(completionCard, currentStepElement.nextSibling);
                     completionCard.classList.add('show');
                     completionCard.scrollIntoView({ 
                         behavior: 'smooth', 
