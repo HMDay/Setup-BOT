@@ -638,10 +638,14 @@
                 currentStep++;
                 const nextStepElement = document.getElementById(`step${currentStep}`);
                 
-                // Scroll into view smoothly
-                nextStepElement.scrollIntoView({ 
+                // Move the current step to right after the progress bar
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.parentNode.insertBefore(nextStepElement, progressContainer.nextSibling);
+                
+                // Scroll to show the progress bar and new step
+                progressContainer.scrollIntoView({ 
                     behavior: 'smooth', 
-                    block: 'center' 
+                    block: 'start' 
                 });
                 
                 // Activate next step with a slight delay for smooth animation
@@ -680,10 +684,14 @@
                 prevStepElement.classList.remove('completed');
                 prevStepElement.classList.add('active');
                 
-                // Scroll into view
-                prevStepElement.scrollIntoView({ 
+                // Move the previous step to right after the progress bar
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.parentNode.insertBefore(prevStepElement, progressContainer.nextSibling);
+                
+                // Scroll to show the progress bar and previous step
+                progressContainer.scrollIntoView({ 
                     behavior: 'smooth', 
-                    block: 'center' 
+                    block: 'start' 
                 });
                 
                 updateProgress();
