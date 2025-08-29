@@ -365,7 +365,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Step 2: Fixtures -->
         <div class="step-card" id="step2">
             <div class="step-header">
@@ -392,7 +391,6 @@
                 </label>
             </div>
         </div>
-
         <!-- Step 3: Getting the sample ready -->
         <div class="step-card" id="step3">
             <div class="step-header">
@@ -439,7 +437,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Step 4: Running the Test -->
         <div class="step-card" id="step4">
             <div class="step-header">
@@ -466,7 +463,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Step 5: Recording and Processing the Data -->
         <div class="step-card" id="step5">
             <div class="step-header">
@@ -483,7 +479,6 @@
                 </div>
             </div>
         </div>
-
         <div class="completion-card" id="completionCard">
             <h2>🎉 Congratulations!</h2>
             <p>You have successfully completed the Buckling of Struts laboratory procedure!</p>
@@ -494,24 +489,20 @@
                 <li>✅ Learn about the limitations of the Euler buckling equation</li>
             </ul>
         </div>
-
         <div class="action-buttons">
             <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
             <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
         </div>
     </div>
-
     <script>
         let currentStep = 1;
         const totalSteps = 5;
-
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
             updateProgress();
             setupCheckboxListeners();
             updateButtons();
         });
-
         function setupCheckboxListeners() {
             // Add event listeners to all checkboxes
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -530,7 +521,6 @@
                 });
             });
         }
-
         function checkStepCompletion() {
             const currentStepElement = document.getElementById(`step${currentStep}`);
             const nextBtn = document.getElementById('nextBtn');
@@ -575,7 +565,6 @@
                 hideStepCompletionMessage();
             }
         }
-
         function showStepCompletionMessage() {
             // Remove any existing message
             const existingMessage = document.querySelector('.completion-message');
@@ -602,14 +591,12 @@
             const actionButtons = document.querySelector('.action-buttons');
             actionButtons.parentNode.insertBefore(message, actionButtons);
         }
-
         function hideStepCompletionMessage() {
             const message = document.querySelector('.completion-message');
             if (message) {
                 message.remove();
             }
         }
-
         function nextStep() {
             if (currentStep < totalSteps) {
                 // Mark current step as completed
@@ -621,10 +608,14 @@
                 currentStep++;
                 const nextStepElement = document.getElementById(`step${currentStep}`);
                 
-                // Scroll into view smoothly
-                nextStepElement.scrollIntoView({ 
+                // Reposition the next step element right after the progress container
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.parentNode.insertBefore(nextStepElement, progressContainer.nextSibling);
+                
+                // Scroll to progress bar
+                progressContainer.scrollIntoView({ 
                     behavior: 'smooth', 
-                    block: 'center' 
+                    block: 'start' 
                 });
                 
                 // Activate next step with a slight delay for smooth animation
@@ -640,16 +631,15 @@
             // Show completion card if on last step
             if (currentStep === totalSteps) {
                 const completionCard = document.getElementById('completionCard');
+                const currentStepElement = document.getElementById(`step${currentStep}`);
+                
+                // Position completion card right after the current step
                 setTimeout(() => {
+                    currentStepElement.parentNode.insertBefore(completionCard, currentStepElement.nextSibling);
                     completionCard.classList.add('show');
-                    completionCard.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
                 }, 1000);
             }
         }
-
         function previousStep() {
             if (currentStep > 1) {
                 // Remove active class from current step
@@ -660,14 +650,18 @@
                 currentStep--;
                 const prevStepElement = document.getElementById(`step${currentStep}`);
                 
+                // Reposition the previous step element right after the progress container
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.parentNode.insertBefore(prevStepElement, progressContainer.nextSibling);
+                
                 // Remove completed class and add active class
                 prevStepElement.classList.remove('completed');
                 prevStepElement.classList.add('active');
                 
-                // Scroll into view
-                prevStepElement.scrollIntoView({ 
+                // Scroll to progress bar
+                progressContainer.scrollIntoView({ 
                     behavior: 'smooth', 
-                    block: 'center' 
+                    block: 'start' 
                 });
                 
                 updateProgress();
@@ -679,7 +673,6 @@
                 completionCard.classList.remove('show');
             }
         }
-
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
             const progressFill = document.getElementById('progressFill');
@@ -688,7 +681,6 @@
             progressFill.style.width = progress + '%';
             stepCounter.textContent = `Step ${currentStep} of ${totalSteps}`;
         }
-
         function updateButtons() {
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
