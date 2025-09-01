@@ -333,7 +333,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Step 2: Programming the Machine -->
         <div class="step-card" id="step2">
             <div class="step-header">
@@ -366,14 +365,12 @@
                     <input type="checkbox" name="step2" value="open-file">
                     <span>Open it</span>
                 </label>
-
                 <div class="visual-aid">
                     <h4>🎯 Visual Check Point</h4>
                     <p>The Trapezium X software should now have loaded an empty graph, signifying it is ready to go.</p>
                 </div>
             </div>
         </div>
-
         <!-- Step 3: Configure the Bending Supports -->
         <div class="step-card" id="step3">
             <div class="step-header">
@@ -396,7 +393,6 @@
                 </label>
             </div>
         </div>
-
         <!-- Step 4: Arrange the Beam -->
         <div class="step-card" id="step4">
             <div class="step-header">
@@ -417,14 +413,12 @@
                     <input type="checkbox" name="step4" value="lower-loading">
                     <span>Lower the loading point until its near (not touching) the top of the beam. This is done using the Shimadzu panel buttons (On. Up. Down.)</span>
                 </label>
-
                 <div class="visual-aid">
                     <h4>🎯 Visual Check Point</h4>
                     <p>What catches some people out is not activating the panel buttons. Make sure the green light is on next to the up/down buttons. If its not, press the 'On' button a couple times.</p>
                 </div>
             </div>
         </div>
-
         <!-- Step 5: Final Touches -->
         <div class="step-card" id="step5">
             <div class="step-header">
@@ -457,14 +451,12 @@
                     <input type="checkbox" name="step5" value="zero-stroke">
                     <span>Zero the stroke (displacement)</span>
                 </label>
-
                 <div class="visual-aid">
                     <h4>🎯 Visual Check Point</h4>
                     <p>We now know that there is no air gap and almost no applied force.</p>
                 </div>
             </div>
         </div>
-
         <!-- Step 6: Running the Test -->
         <div class="step-card" id="step6">
             <div class="step-header">
@@ -485,14 +477,12 @@
                     <input type="checkbox" name="step6" value="confirm-ready">
                     <span>It asks if you are ready.... press the green button again</span>
                 </label>
-
                 <div class="visual-aid">
                     <h4>🎯 Visual Check Point</h4>
                     <p>Observe the graph being plotted on the laptop screen showing force applied and the central displacement (stroke) of the machine</p>
                 </div>
             </div>
         </div>
-
         <!-- Step 7: Recording and Processing Data -->
         <div class="step-card" id="step7">
             <div class="step-header">
@@ -507,7 +497,12 @@
                 </div>
             </div>
         </div>
-
+        
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
+        </div>
+        
         <div class="completion-card" id="completionCard">
             <h2>🎉 Congratulations!</h2>
             <p>You have successfully completed the experimental tests</p>
@@ -518,17 +513,10 @@
                 <li>✅ Explore the reasons for any differences</li>
             </ul>
         </div>
-
-        <div class="action-buttons">
-            <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>Previous</button>
-            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
-        </div>
     </div>
-
     <script>
         let currentStep = 1;
         const totalSteps = 7;
-
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
             updateProgress();
@@ -536,7 +524,6 @@
             setupTextInputListener();
             updateButtons();
         });
-
         function setupCheckboxListeners() {
             // Add event listeners to all checkboxes
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -555,7 +542,6 @@
                 });
             });
         }
-
         function setupTextInputListener() {
             const textInput = document.getElementById('machineNumber');
             if (textInput) {
@@ -564,13 +550,11 @@
                 });
             }
         }
-
         function checkStepCompletion() {
             const currentStepElement = document.getElementById(`step${currentStep}`);
             const nextBtn = document.getElementById('nextBtn');
             
             let isComplete = false;
-
             if (currentStep === 1) {
                 // Step 1: Check if text input has content
                 const textInput = document.getElementById('machineNumber');
@@ -613,7 +597,6 @@
                 hideStepCompletionMessage();
             }
         }
-
         function showStepCompletionMessage() {
             // Remove any existing message
             const existingMessage = document.querySelector('.completion-message');
@@ -640,14 +623,12 @@
             const actionButtons = document.querySelector('.action-buttons');
             actionButtons.parentNode.insertBefore(message, actionButtons);
         }
-
         function hideStepCompletionMessage() {
             const message = document.querySelector('.completion-message');
             if (message) {
                 message.remove();
             }
         }
-
         function nextStep() {
             if (currentStep < totalSteps) {
                 // Mark current step as completed
@@ -659,10 +640,14 @@
                 currentStep++;
                 const nextStepElement = document.getElementById(`step${currentStep}`);
                 
-                // Scroll into view smoothly
-                nextStepElement.scrollIntoView({ 
+                // Move the next step element right after the progress container
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.parentNode.insertBefore(nextStepElement, progressContainer.nextSibling);
+                
+                // Scroll to progress bar first
+                progressContainer.scrollIntoView({ 
                     behavior: 'smooth', 
-                    block: 'center' 
+                    block: 'start' 
                 });
                 
                 // Activate next step with a slight delay for smooth animation
@@ -678,16 +663,15 @@
             // Show completion card if on last step
             if (currentStep === totalSteps) {
                 const completionCard = document.getElementById('completionCard');
+                const currentStepElement = document.getElementById(`step${currentStep}`);
+                
                 setTimeout(() => {
+                    // Position completion card right after the current step
+                    currentStepElement.parentNode.insertBefore(completionCard, currentStepElement.nextSibling);
                     completionCard.classList.add('show');
-                    completionCard.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
                 }, 1000);
             }
         }
-
         function previousStep() {
             if (currentStep > 1) {
                 // Remove active class from current step
@@ -698,14 +682,18 @@
                 currentStep--;
                 const prevStepElement = document.getElementById(`step${currentStep}`);
                 
+                // Move the previous step element right after the progress container
+                const progressContainer = document.querySelector('.progress-container');
+                progressContainer.parentNode.insertBefore(prevStepElement, progressContainer.nextSibling);
+                
                 // Remove completed class and add active class
                 prevStepElement.classList.remove('completed');
                 prevStepElement.classList.add('active');
                 
-                // Scroll into view
-                prevStepElement.scrollIntoView({ 
+                // Scroll to progress bar
+                progressContainer.scrollIntoView({ 
                     behavior: 'smooth', 
-                    block: 'center' 
+                    block: 'start' 
                 });
                 
                 updateProgress();
@@ -717,7 +705,6 @@
                 completionCard.classList.remove('show');
             }
         }
-
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
             const progressFill = document.getElementById('progressFill');
@@ -726,7 +713,6 @@
             progressFill.style.width = progress + '%';
             stepCounter.textContent = `Step ${currentStep} of ${totalSteps}`;
         }
-
         function updateButtons() {
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
