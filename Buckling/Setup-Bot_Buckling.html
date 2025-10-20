@@ -316,7 +316,7 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="step-counter" id="stepCounter">Step 1 of 5</div>
+            <div class="step-counter" id="stepCounter">Step 1 of 6</div>
         </div>
         
         <!-- Step 1: Programming the Machine -->
@@ -349,7 +349,7 @@
                 </label>
                 <label class="checkbox-item">
                     <input type="checkbox" name="step1" value="batch-samples">
-                    <span>Select 1 batch, 5 samples per batch</span>
+                    <span>Select 1 batch, 4 samples per batch</span>
                 </label>
                 <label class="checkbox-item">
                     <input type="checkbox" name="step1" value="chart-limits">
@@ -450,6 +450,10 @@
                 </div>
                 
                 <label class="checkbox-item">
+                    <input type="checkbox" name="step4" value="measure-distance">
+                    <span>Now measure the distance between the tips of the knife edges - this is the effective strut length. Enter it into the spreadsheet</span>
+                </label>
+                <label class="checkbox-item">
                     <input type="checkbox" name="step4" value="press-green">
                     <span>Press the green panel button</span>
                 </label>
@@ -463,10 +467,28 @@
                 </div>
             </div>
         </div>
-        <!-- Step 5: Recording and Processing the Data -->
+        <!-- Step 5: Stopping the Test -->
         <div class="step-card" id="step5">
             <div class="step-header">
                 <div class="step-number">5</div>
+                <div class="step-title">Stopping the Test</div>
+            </div>
+            <div class="step-content">
+                <div class="instruction-item">
+                    <p>The test needs to be stopped at the right moment</p>
+                    <p><strong>Do the following:</strong></p>
+                </div>
+                
+                <label class="checkbox-item">
+                    <input type="checkbox" name="step5" value="stop-test">
+                    <span>Once the graph has reached and surpassed its peak, stop the test by pressing the red button on the Shimadzu</span>
+                </label>
+            </div>
+        </div>
+        <!-- Step 6: Recording and Processing the Data -->
+        <div class="step-card" id="step6">
+            <div class="step-header">
+                <div class="step-number">6</div>
                 <div class="step-title">Recording and Processing the Data</div>
             </div>
             <div class="step-content">
@@ -485,7 +507,7 @@
             <p><strong>Next Steps:</strong></p>
             <ul style="list-style: none; padding: 0;">
                 <li>✅ Process your strut test data</li>
-                <li>✅ Compare experimental data to theoretical predictios for buckling capacity</li>
+                <li>✅ Compare experimental data to theoretical predictions for buckling capacity</li>
                 <li>✅ Learn about the limitations of the Euler buckling equation</li>
             </ul>
         </div>
@@ -496,7 +518,7 @@
     </div>
     <script>
         let currentStep = 1;
-        const totalSteps = 5;
+        const totalSteps = 6;
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
             updateProgress();
@@ -527,8 +549,8 @@
             
             let isComplete = false;
             
-            if (currentStep === 5) {
-                // Step 5: No requirements, always complete
+            if (currentStep === 6) {
+                // Step 6: No requirements, always complete
                 isComplete = true;
             } else {
                 // Other steps: Check if all checkboxes are checked
@@ -689,7 +711,7 @@
             prevBtn.disabled = currentStep === 1;
             prevBtn.style.opacity = currentStep === 1 ? '0.6' : '1';
             
-            // Next button - special handling for step 5
+            // Next button - special handling for step 6
             if (currentStep === totalSteps) {
                 nextBtn.style.display = 'none';  // Hide next button on final step
             } else {
